@@ -1,0 +1,16 @@
+.gradle/
+**/build/
+local.properties
+*.iml
+.idea/
+.DS_Store
+.externalNativeBuild/
+.cxx/
+*.jks
+*.keystore
+secrets.properties
+csv/
+*.pyc
+__pycache__/
+backtest_report.*
+.cache/

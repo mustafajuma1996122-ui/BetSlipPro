@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BET SLIP PRO — لوحة الأداء</title>
+<style>
+:root{--bg:#0f1419;--p:#18202a;--t:#f4f7fa;--m:#8b98a5;--g:#35d07f;--r:#ff6b6b}
+body{margin:0;background:var(--bg);color:var(--t);font:15px/1.6 system-ui,Tahoma,sans-serif;padding:16px;max-width:900px;margin-inline:auto}
+h1{font-size:22px}h2{font-size:17px;margin-top:28px}.c{background:var(--p);border-radius:14px;padding:12px 14px;margin:8px 0}
+table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;border-bottom:1px solid #2a3542;text-align:right;font-size:13px}
+.m{color:var(--m);font-size:12px}.v{color:var(--g);font-weight:700}.w{color:var(--r)}
+</style></head><body>
+<h1>BET SLIP PRO — لوحة الأداء العامة</h1>
+<p class="m" id="meta">جارٍ التحميل…</p>
+<div class="c m">توقعات إحصائية لأغراض معلوماتية فقط؛ لا ضمان للنتائج أو الأرباح. السجل أدناه مُسجَّل قبل المباريات ولا يُعدَّل.</div>
+<h2>الأداء المسجّل (لكل المباريات المُقيَّمة)</h2><div class="c" id="perf">…</div>
+<h2>الرهانات ذات القيمة</h2><div class="c" id="bets">…</div>
+<h2>المعايرة</h2><div class="c"><table id="cal"></table></div>
+<h2>المباريات القادمة</h2><div class="c"><table id="fx"></table></div>
+<script>
+const f=(x,d=3)=>x==null?'—':Number(x).toFixed(d), pc=x=>x==null?'—':(x*100).toFixed(1)+'%';
+Promise.all([fetch('metrics.json').then(r=>r.json()),fetch('predictions.json').then(r=>r.json())]).then(([m,p])=>{
+ document.getElementById('meta').textContent='آخر تحديث: '+p.generated_at+' • الإصدار '+p.model_version+' • المعايرة: '+(p.calibrated?'مفعّلة':'غير مفعّلة');
+ const row=(n,a)=>a?`<tr><td>${n}</td><td>${f(a.log_loss)}</td><td>${f(a.brier)}</td><td>${f(a.rps)}</td><td>${a.n}</td></tr>`:'';
+ document.getElementById('perf').innerHTML=m.graded?`<p>${m.graded} مباراة مُقيَّمة من ${m.total_predictions}</p><table><tr><th>النموذج</th><th>log-loss</th><th>Brier</th><th>RPS</th><th>n</th></tr>${row('النهائي',m.final)}${row('نموذج فقط',m.model_only)}${row('السوق',m.market_only)}${row('عشوائي',m.uniform)}</table><p class="m">الأقل أفضل. إن لم يتفوق النهائي على السوق فلا ميزة حقيقية بعد.</p>`:'لا توجد نتائج مُقيَّمة بعد — ستظهر بعد انتهاء أول المباريات المسجّلة.';
+ const b=m.value_bets;document.getElementById('bets').innerHTML=b?`<p>عدد الرهانات: <b>${b.n}</b> • نسبة الإصابة: ${pc(b.hit_rate)} • عائد ثابت: <span class="${b.flat_roi>=0?'v':'w'}">${pc(b.flat_roi)}</span> • متوسط CLV: <span class="${(b.avg_clv||0)>=0?'v':'w'}">${pc(b.avg_clv)}</span> (n=${b.clv_n})</p><p class="m">${b.note}</p>`:'لا رهانات مُقيَّمة بعد. المحرك صارم عمداً: معظم المباريات = «لا قيمة».';
+ document.getElementById('cal').innerHTML='<tr><th>الشريحة</th><th>n</th><th>المتوقع</th><th>الفعلي</th></tr>'+(m.calibration||[]).map(c=>`<tr><td>${c.bucket}</td><td>${c.n}</td><td>${pc(c.predicted)}</td><td>${pc(c.observed)}</td></tr>`).join('');
+ document.getElementById('fx').innerHTML='<tr><th>المباراة</th><th>1</th><th>X</th><th>2</th><th>التوقع</th></tr>'+p.fixtures.map(x=>`<tr><td>${x.home} - ${x.away}<br><span class="m">${x.league} • ${x.date}</span></td><td>${pc(x.probs.home)}</td><td>${pc(x.probs.draw)}</td><td>${pc(x.probs.away)}</td><td>${x.pick.value?'<span class="v">قيمة: ':'<span class="m">'}${x.pick.pick} (${pc(x.pick.probability)})</span></td></tr>`).join('');
+}).catch(e=>{document.getElementById('meta').textContent='لا توجد بيانات بعد: شغّل workflow «Predict» أولاً.';});
+</script></body></html>

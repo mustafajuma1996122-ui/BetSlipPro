@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BET SLIP PRO</string>
+    <string name="notif_channel_name">توقعات اليوم</string>
+    <string name="notif_title">توقعات جديدة مؤهلة</string>
+    <string name="notif_disclaimer">تقديرات إحصائية وليست ضماناً للنتيجة.</string>
+</resources>
