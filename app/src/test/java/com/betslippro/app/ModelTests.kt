@@ -32,8 +32,10 @@ class ScoreModelTest {
     }
 
     @Test fun simpleEngineStillWorks() {
-        val form = TeamForm(10, 1.5, 1.0)
-        val p = PredictionEngine.predict(form, form)
+        // Two league-average sides: the home team's home rates vs the away team's away rates.
+        val homeForm = TeamForm(10, 1.50, 1.15)
+        val awayForm = TeamForm(10, 1.15, 1.50)
+        val p = PredictionEngine.predict(homeForm, awayForm)
         assertEquals(1.0, p.homeWin + p.draw + p.awayWin, 1e-9)
         assertTrue(p.homeWin > p.awayWin) // home advantage
     }
