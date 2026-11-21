@@ -1,0 +1,33 @@
+name: Unpack project
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unzip the uploaded project into the repository root
+        run: |
+          set -e
+          ZIP="$(ls *.zip | head -1)"
+          echo "Using $ZIP"
+          mkdir -p /tmp/x
+          unzip -q -o "$ZIP" -d /tmp/x
+          SRC="$(find /tmp/x -maxdepth 2 -name settings.gradle.kts -printf '%h\n' | head -1)"
+          # GitHub forbids workflows from writing .github/workflows, so park those files in ci-workflows/
+          mkdir -p ci-workflows
+          cp "$SRC"/.github/workflows/android.yml "$SRC"/.github/workflows/predict.yml "$SRC"/.github/workflows/tune.yml ci-workflows/
+          tar -C "$SRC" --exclude='./.github/workflows' -cf - . | tar -xf -
+          git rm -q -f "$ZIP"
+      - name: Commit
+        run: |
+          git config user.name  "betslip-bot"
+          git config user.email "betslip-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Unpack BET SLIP PRO project"
+          git push
