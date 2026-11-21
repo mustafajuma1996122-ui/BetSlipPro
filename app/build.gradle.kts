@@ -72,6 +72,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.json:json:20240303") // real org.json for feed-parsing unit tests (android.jar only has stubs)
+    testImplementation("org.json:json:20260814") // real org.json for feed-parsing unit tests (android.jar only has stubs)
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 }
