@@ -71,9 +71,9 @@ class Store private constructor(private val db: AppDatabase) {
     /** One-time import of the pre-2.1 SharedPreferences JSON into Room. Old keys are removed only after success. */
     suspend fun migrateFromPrefsIfNeeded(prefs: SharedPreferences) = withContext(Dispatchers.IO) {
         if (prefs.getBoolean("room_migrated_v1", false)) return@withContext
-        val fixtures = loadFixtures(prefs)
-        val slips = loadSlips(prefs)
-        val records = loadPredictionRecords(prefs)
+        val fixtures = legacyLoadFixtures(prefs)
+        val slips = legacyLoadSlips(prefs)
+        val records = legacyLoadPredictionRecords(prefs)
         mutex.withLock {
             dao.replaceFixtures(fixtures.map { FixtureEntity(it.id, it.home, it.away, it.league, it.date, it.homeTeamId, it.awayTeamId, it.sourceLeagueCode) })
             dao.replacePredictions(records.map(::toEntity))

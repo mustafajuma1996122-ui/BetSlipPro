@@ -27,7 +27,8 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Ticket
+import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -186,7 +187,7 @@ fun BetSlipApp() {
             NavigationBar(containerColor = Panel, contentColor = White) {
                 NavigationBarItem(selected = tab == 0, onClick = { tab = 0 }, icon = { Icon(Icons.Default.Home, null) }, label = { Text("الرئيسية") })
                 NavigationBarItem(selected = tab == 1, onClick = { tab = 1 }, icon = { Icon(Icons.Default.CalendarMonth, null) }, label = { Text("المباريات") })
-                NavigationBarItem(selected = tab == 2, onClick = { tab = 2 }, icon = { Icon(Icons.Default.Ticket, null) }, label = { Text("القسيمة") })
+                NavigationBarItem(selected = tab == 2, onClick = { tab = 2 }, icon = { Icon(Icons.Default.ConfirmationNumber, null) }, label = { Text("القسيمة") })
                 NavigationBarItem(selected = tab == 3, onClick = { tab = 3 }, icon = { Icon(Icons.Default.Archive, null) }, label = { Text("الأرشيف") })
                 NavigationBarItem(selected = tab == 4, onClick = { tab = 4 }, icon = { Icon(Icons.Default.Calculate, null) }, label = { Text("التحليل") })
                 NavigationBarItem(selected = tab == 5, onClick = { tab = 5 }, icon = { Icon(Icons.Default.Assessment, null) }, label = { Text("الدقة") })
@@ -578,7 +579,7 @@ private fun parseRecentScores(raw: String): List<Pair<Int, Int>> {
                         Text("أضف مباراة، اختر السوق والتوقع، ودع التطبيق يحسب المعامل والعائد المحتمل.", color = Muted, fontSize = 13.sp)
                         Spacer(Modifier.height(16.dp))
                         Button(onClick = onMatches, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Green), shape = RoundedCornerShape(12.dp)) { Icon(Icons.Default.Add, null); Spacer(Modifier.width(8.dp)); Text("إضافة أو استيراد مباريات", color = Bg, fontWeight = FontWeight.Bold) }
-                        OutlinedButton(onClick = onSlip, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) { Icon(Icons.Default.Ticket, null); Spacer(Modifier.width(8.dp)); Text("فتح القسيمة الحالية") }
+                        OutlinedButton(onClick = onSlip, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) { Icon(Icons.Default.ConfirmationNumber, null); Spacer(Modifier.width(8.dp)); Text("فتح القسيمة الحالية") }
                     }
                 }
                 Text("مميزات التطبيق", color = White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
