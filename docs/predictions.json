@@ -1,16 +1,16 @@
 {
- "generated_at": "2026-11-23T05:31:35Z",
+ "generated_at": "2026-11-23T09:37:29Z",
  "model_version": "V3.0-DC-Market-Isotonic",
  "disclaimer": "توقعات إحصائية لأغراض معلوماتية فقط؛ لا تضمن نتائج ولا أرباحاً. القمار ينطوي على مخاطر مالية.",
  "source": "football-data.co.uk",
  "params": {
-  "half_life": 150.0,
-  "prior": 4.0,
+  "half_life": 200.0,
+  "prior": 3.0,
   "rho": -0.1,
-  "market_weight": 0.6,
-  "tuned_at": null
+  "market_weight": 1.0,
+  "tuned_at": "2026-11-23"
  },
- "calibrated": false,
+ "calibrated": true,
  "problems": [],
  "fixtures": [],
  "results": []
